@@ -32,7 +32,14 @@ class _CustomCardProductState extends State<CustomCardProduct> {
   List<Widget> enlistaDatos(Map<String, String> data) {
     List<Widget> retornoDatos = <Widget>[];
     data.forEach((key, value) {
-      retornoDatos.add(Text('$key : $value'));
+      retornoDatos.add(
+        Row(
+          children: [
+            Text('$key :',textAlign: TextAlign.left,),Text(value,textAlign: TextAlign.left)
+          ],
+        )
+       
+        );
     });
     return retornoDatos;
   }
@@ -43,7 +50,7 @@ class _CustomCardProductState extends State<CustomCardProduct> {
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(Icons.ac_unit_rounded),
+            leading: const Image( image: NetworkImage('https://definicion.de/wp-content/uploads/2009/06/producto.png')),
             title: Text('clave - ${widget.product}'),
             subtitle: const Text('Descripcion'),
             trailing: iconoMostrar,
