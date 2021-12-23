@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inventario_urba/router/app_routes.dart';
 import 'package:inventario_urba/screens/screens.dart';
 
 void main() {
@@ -10,15 +11,11 @@ class Urba extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, initialRoute: 'login',
-        //home: const ListProduct(),
-        routes: {
-          'home': (BuildContext context) => const ListProduct(),
-          'usuario': (BuildContext context) => const UserScreen(),
-          'menu': (BuildContext context) => const MenuScreen(),
-          'login': (BuildContext context) => const LoginScreen(),
-          'producto': (BuildContext context) => const ProductoScreen(),
-          'inventario': (BuildContext context) => const ListProduct(),
-        });
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: app_routes.intialRoute,
+      routes: app_routes.routes,
+      onGenerateRoute: app_routes.onGenerateRoute,
+    );
   }
 }

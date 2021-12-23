@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:inventario_urba/screens/screens.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -89,17 +90,20 @@ class LoginWidget extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 25.0),
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, 'inventario');
+                                    },
                                     style: ButtonStyle(
                                       elevation: MaterialStateProperty.all(0),
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                              Color(0xFF225A4D)),
+                                              const Color(0xFF225A4D)),
                                       padding: MaterialStateProperty.all(
-                                          EdgeInsets.symmetric(
+                                          const EdgeInsets.symmetric(
                                               horizontal: 70, vertical: 15)),
                                     ),
-                                    child: Text('Iniciar sesión')),
+                                    child: const Text('Iniciar sesión')),
                               ),
                             )
                           ]),
