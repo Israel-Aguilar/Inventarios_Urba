@@ -16,6 +16,14 @@ class Urba extends StatelessWidget {
       initialRoute: app_routes.intialRoute,
       routes: app_routes.routes,
       onGenerateRoute: app_routes.onGenerateRoute,
+      theme: ThemeData.light().copyWith(
+        primaryColor: const Color(0xFF225A4D),
+        appBarTheme: const AppBarTheme(
+          color:Color(0xFF225A4D),
+          elevation: 0,
+          
+        ),
+      ),
     );
   }
 }

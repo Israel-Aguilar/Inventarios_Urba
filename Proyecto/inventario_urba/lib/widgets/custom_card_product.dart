@@ -50,7 +50,7 @@ class _CustomCardProductState extends State<CustomCardProduct> {
       child: Column(
         children: [
           ListTile(
-            leading: const Image( image: NetworkImage('https://definicion.de/wp-content/uploads/2009/06/producto.png')),
+            leading: const FadeInImage(placeholder: AssetImage('assets/lodingtrsansparent.gif'), image: NetworkImage('https://definicion.de/wp-content/uploads/2009/06/producto.png')),
             title: Text('clave - ${widget.product}'),
             subtitle: const Text('Descripcion'),
             trailing: iconoMostrar,
