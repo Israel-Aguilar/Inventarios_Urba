@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:inventario_urba/providers/login_form_provider.dart';
 
 import 'package:inventario_urba/screens/screens.dart';
 import 'package:inventario_urba/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -14,23 +16,16 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class LoginWidget extends StatefulWidget {
+class LoginWidget extends StatelessWidget {
   const LoginWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<LoginWidget> createState() => _LoginWidgetState();
-}
-
-class _LoginWidgetState extends State<LoginWidget> {
-  bool _isObscure = true;
-  @override
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Image(image: AssetImage('assets/login.png')),
             const SizedBox(
@@ -41,114 +36,128 @@ class _LoginWidgetState extends State<LoginWidget> {
               color: AppTheme.primary,
               size: 60,
             ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 10, bottom: 10, left: 15, right: 25),
-                child: Center(
-                  child: Form(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 18.0),
-                            child: Text(
-                              'Iniciar Sesión',
-                              style: TextStyle(
-                                color: AppTheme.primary,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              icon: Icon(
-                                Icons.alternate_email,
-                                color: AppTheme.primary,
-                              ),
-                              hintText: 'ejemplo@gmail.com',
-                              labelText: 'Correo electrónico',
-                            ),
-                            validator: (String? value) {
-                              return (value != null && !value.contains('@'))
-                                  ? 'Debes ingresar un correo valido.'
-                                  : null;
-                            },
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              icon: const Icon(
-                                Icons.lock,
-                                color: AppTheme.primary,
-                              ),
-                              suffixIcon:IconButton(
-                                icon: Icon(
-                                  _isObscure ? Icons.visibility : Icons.visibility_off,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _isObscure = !_isObscure;
-                                  });
-                                }),
-                              hintText: '',
-                              labelText: 'Contraseña',
-                            ),
-                            obscureText: _isObscure,
-                            validator: (String? value) {
-                              return (value == null)
-                                  ? 'Campo requerido.'
-                                  : null;
-                            },
-                          ),
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 25.0),
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacementNamed(
-                                        context, 'inventario');
-                                  },
-                                  style: ButtonStyle(
-                                    elevation: MaterialStateProperty.all(0),
-                                    backgroundColor:
-                                        MaterialStateProperty.all(
-                                            AppTheme.primary),
-                                    padding: MaterialStateProperty.all(
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 70, vertical: 15)),
-                                  ),
-                                  child: const Text('Iniciar sesión')),
-                            ),
-                          )
-                        ]),
-                  ),
-                ),
-              ),
-              margin:
-                  const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              height: MediaQuery.of(context).size.width * 0.85,
-              width: MediaQuery.of(context).size.width * 0.85,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.9),
-                    spreadRadius: 3,
-                    blurRadius: 2,
-                    offset:
-                        const Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-            )
+            ChangeNotifierProvider(
+              create: (_) => LoginFormProvider(),
+              child: _LoginForm(),
+            ),
+            const SizedBox(
+              height: 90,
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _LoginForm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final LoginForm = Provider.of<LoginFormProvider>(context);
+    return Container(
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 25),
+        child: Form(
+          key: LoginForm.formkey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 35, bottom: 18.0),
+              child: Text(
+                'Iniciar Sesión',
+                style: TextStyle(
+                  color: AppTheme.primary,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            TextFormField(
+              onChanged: (value) => LoginForm.email = value,
+              decoration: const InputDecoration(
+                icon: Icon(
+                  Icons.alternate_email,
+                  color: AppTheme.primary,
+                ),
+                hintText: 'ejemplo@gmail.com',
+                labelText: 'Correo electrónico',
+              ),
+              validator: (String? value) {
+                return (value != null && !value.contains('@'))
+                    ? 'Debes ingresar un correo valido.'
+                    : null;
+              },
+            ),
+            TextFormField(
+              onChanged: (value) => LoginForm.password = value,
+              decoration: InputDecoration(
+                icon: const Icon(
+                  Icons.lock,
+                  color: AppTheme.primary,
+                ),
+                suffixIcon: IconButton(
+                    icon: Icon(
+                      LoginForm.isObscure
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      LoginForm.isObscure = !LoginForm.isObscure;
+                      print("mostrar ocultar pass");
+                      LoginForm.notifyListeners();
+                      //setState(() {
+                      //_isObscure = !_isObscure;
+                      //});
+                    }),
+                hintText: '',
+                labelText: 'Contraseña',
+              ),
+              obscureText: LoginForm.isObscure,
+              validator: (String? value) {
+                return (value == null) ? 'Campo requerido.' : null;
+              },
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      //Navigator.pushReplacementNamed(context, 'inventario');
+                      LoginForm.isValidForm();
+                    },
+                    style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(0),
+                      backgroundColor:
+                          MaterialStateProperty.all(AppTheme.primary),
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(
+                              horizontal: 70, vertical: 15)),
+                    ),
+                    child: const Text('Iniciar sesión')),
+              ),
+            )
+          ]),
+        ),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      height: MediaQuery.of(context).size.width * 0.80,
+      width: MediaQuery.of(context).size.width * 0.85,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.9),
+            spreadRadius: 3,
+            blurRadius: 2,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
       ),
     );
   }
