@@ -54,13 +54,38 @@ class _ListProductState extends State<ListProduct> {
 
   @override
   Widget build(BuildContext context) {
+    List<CustomCardProduct> lista = listarProductos(mapPproducts).toList();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buscar'),
+        title: Row(
+          children: [
+            IconButton(
+                icon: const Icon(Icons.sort),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'menu');
+                }),
+            TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.21),
+                  textStyle: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      decorationColor: Colors.white),
+                ),
+                onPressed: () {},
+                child: const Text('Buscar')),
+            IconButton(icon: const Icon(Icons.camera_alt), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.add), onPressed: () {}),
+          ],
+        ),
       ),
-      body: ListView(
+      body: ListView.builder(
+        itemCount: lista.length,
+        itemBuilder: (BuildContext context, int index) => lista[index],
         padding: const EdgeInsets.symmetric(vertical: 10),
-        children: [...listarProductos(mapPproducts).toList()],
+        //children: [...],
       ),
     );
   }

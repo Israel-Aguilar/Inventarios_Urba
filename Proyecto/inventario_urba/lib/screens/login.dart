@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventario_urba/providers/login_form_provider.dart';
-
+import 'package:inventario_urba/router/app_routes.dart';
 import 'package:inventario_urba/screens/screens.dart';
 import 'package:inventario_urba/theme/app_theme.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +41,7 @@ class LoginWidget extends StatelessWidget {
               child: _LoginForm(),
             ),
             const SizedBox(
-              height: 90,
+              height: 80,
             ),
           ],
         ),
@@ -104,8 +104,8 @@ class _LoginForm extends StatelessWidget {
                     ),
                     onPressed: () {
                       LoginForm.isObscure = !LoginForm.isObscure;
-                      print("mostrar ocultar pass");
-                      LoginForm.notifyListeners();
+                      print("mostrar ocultar pass ");
+                      //LoginForm.notifyListeners();
                       //setState(() {
                       //_isObscure = !_isObscure;
                       //});
@@ -115,33 +115,48 @@ class _LoginForm extends StatelessWidget {
               ),
               obscureText: LoginForm.isObscure,
               validator: (String? value) {
-                return (value == null) ? 'Campo requerido.' : null;
+                return (value == null || value.length == 0)
+                    ? 'Campo requerido.'
+                    : null;
               },
             ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 30.0),
                 child: ElevatedButton(
-                    onPressed: () {
-                      //Navigator.pushReplacementNamed(context, 'inventario');
-                      LoginForm.isValidForm();
-                    },
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(0),
-                      backgroundColor:
-                          MaterialStateProperty.all(AppTheme.primary),
-                      padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(
-                              horizontal: 70, vertical: 15)),
-                    ),
-                    child: const Text('Iniciar sesión')),
+                  onPressed: LoginForm.isLoading
+                      ? null
+                      : () async {
+                          //Navigator.pushReplacementNamed(context, 'inventario');
+                          LoginForm.isLoading = true;
+                          FocusScope.of(context).unfocus();
+                          if (!LoginForm.isValidForm())
+                            return;
+                          else
+                            Navigator.pushReplacementNamed(
+                                context, 'inventario');
+                          await Future.delayed(Duration(seconds: 2));
+                        },
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(0),
+                    backgroundColor:
+                        MaterialStateProperty.all(AppTheme.primary),
+                    padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(
+                            horizontal: 70, vertical: 15)),
+                  ),
+                  child: Text(
+                    LoginForm.isLoading ? 'Iniciando sesión' : 'Iniciar sesión',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
             )
           ]),
         ),
       ),
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      height: MediaQuery.of(context).size.width * 0.80,
+      height: MediaQuery.of(context).size.width * 0.85,
       width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
         color: Colors.white,

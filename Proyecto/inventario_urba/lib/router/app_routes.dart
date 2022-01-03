@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inventario_urba/screens/screens.dart';
 
 class app_routes {
-  static const intialRoute = 'login';
+  static const intialRoute = 'inventario';
   static Map<String, Widget Function(BuildContext)> routes = {
     'usuario': (BuildContext context) => const UserScreen(),
     'menu': (BuildContext context) => const MenuScreen(),
