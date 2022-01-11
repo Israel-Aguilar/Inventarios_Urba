@@ -3,4 +3,7 @@ export 'package:inventario_urba/screens/menu.dart';
 export 'package:inventario_urba/screens/producto.dart';
 export 'package:inventario_urba/screens/list.dart';
 export 'package:inventario_urba/screens/usuario.dart';
+export 'package:inventario_urba/screens/busqueda.dart';
+export 'package:inventario_urba/screens/camara.dart';
+export 'package:inventario_urba/screens/prueba.dart';
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';

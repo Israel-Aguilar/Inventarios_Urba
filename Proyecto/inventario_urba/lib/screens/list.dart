@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventario_urba/widgets/widgets.dart';
+import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
 class ListProduct extends StatefulWidget {
   const ListProduct({Key? key}) : super(key: key);
@@ -67,12 +68,10 @@ class _ListProductState extends State<ListProduct> {
             TextButton(
                 style: TextButton.styleFrom(
                   primary: Colors.white,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.21),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.21),
                   textStyle: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      decorationColor: Colors.white),
+                      fontSize: 20, color: Colors.white, decorationColor: Colors.white),
                 ),
                 onPressed: () {},
                 child: const Text('Buscar')),
