@@ -31,10 +31,10 @@ class LoginWidget extends StatelessWidget {
             const SizedBox(
               height: 70,
             ),
-            const FaIcon(
-              FontAwesomeIcons.userFriends,
+            const Icon(
+              Icons.people,
               color: AppTheme.primary,
-              size: 60,
+              size: 70,
             ),
             ChangeNotifierProvider(
               create: (_) => LoginFormProvider(),

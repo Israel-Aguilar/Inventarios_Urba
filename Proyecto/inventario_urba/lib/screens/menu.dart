@@ -122,7 +122,7 @@ class _Menu extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            Icons.crop_free,
+            Icons.pages,
             color: AppTheme.primary_shade(50),
           ),
           Padding(
